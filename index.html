@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Project page for Gen-n-Val: Agentic Image Data Generation and Validation, a CVPR 2026 Findings Track paper.">
+  <meta property="og:title" content="Gen-n-Val: Agentic Image Data Generation and Validation">
+  <meta property="og:description" content="An agentic framework for generating and validating high-quality synthetic data for object detection and instance segmentation.">
+  <meta property="og:image" content="static/images/teaser_left.png">
+  <meta property="og:type" content="website">
+  <title>Gen-n-Val: Agentic Image Data Generation and Validation</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+  <link rel="stylesheet" href="static/css/fontawesome.all.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/academicons@1.9.4/css/academicons.min.css">
+  <link rel="stylesheet" href="static/css/index.css">
+  <link rel="icon" href="./static/images/favicon.ico">
+</head>
+<body>
+  <nav class="navbar is-light" role="navigation" aria-label="main navigation">
+    <div class="navbar-brand">
+      <a class="navbar-item publication-nav-title" href="#top">Gen-n-Val</a>
+      <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="project-navbar">
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+      </a>
+    </div>
+    <div id="project-navbar" class="navbar-menu">
+      <div class="navbar-end">
+        <a class="navbar-item" href="#abstract">Abstract</a>
+        <a class="navbar-item" href="#motivation">Motivation</a>
+        <a class="navbar-item" href="#method">Method</a>
+        <a class="navbar-item" href="#results">Results</a>
+        <a class="navbar-item" href="#bibtex">BibTeX</a>
+      </div>
+    </div>
+  </nav>
+
+  <main id="top">
+    <section class="hero publication-header">
+      <div class="hero-body">
+        <div class="container is-max-desktop">
+          <div class="columns is-centered">
+            <div class="column has-text-centered">
+              <h1 class="title is-1 publication-title">Gen-n-Val: Agentic Image Data Generation and Validation</h1>
+
+              <div class="is-size-5 publication-authors">
+                <span class="author-block"><a href="https://angusbb.github.io/">Jing-En Huang</a><sup>*&dagger;&Dagger;</sup>,</span>
+                <span class="author-block"><a href="https://ishengfang.github.io/">I-Sheng Fang</a><sup>*&Dagger;</sup>,</span>
+                <span class="author-block"><a href="https://dblp.org/pid/355/1090.html">Tzuhsuan Huang</a><sup>&Dagger;</sup>,</span>
+                <span class="author-block"><a href="https://yulunalexliu.github.io/">Yu-Lun Liu</a><sup>&dagger;</sup>,</span>
+                <span class="author-block"><a href="https://tom.ky/">Chih-Yu Wang</a><sup>&Dagger;</sup>,</span>
+                <span class="author-block"><a href="https://homepage.citi.sinica.edu.tw/pages/pullpull/index_en.html">Jun-Cheng Chen</a><sup>&Dagger;</sup></span>
+              </div>
+              <p class="contribution-note"><sup>*</sup>Equal contribution</p>
+
+              <div class="is-size-5 publication-authors publication-institutions">
+                <span class="author-block"><sup>&dagger;</sup>National Yang Ming Chiao Tung University</span>
+                <span class="author-block"><sup>&Dagger;</sup>Research Center for Information Technology Innovation, Academia Sinica</span>
+              </div>
+              <div class="is-size-5 publication-authors publication-venue">
+                <span class="author-block">CVPR 2026 Findings Track</span>
+              </div>
+
+              <div class="publication-links">
+                <span class="link-block">
+                  <a href="https://arxiv.org/abs/2506.04676" class="external-link button is-normal is-rounded is-dark arxiv-button" title="Open arXiv abstract">
+                    <span class="icon arxiv-icon" aria-hidden="true">
+                      <img src="https://api.iconify.design/simple-icons/arxiv.svg?color=%23ffffff" alt="">
+                    </span>
+                    <span>arXiv</span>
+                  </a>
+                </span>
+                <span class="link-block">
+                  <a href="https://github.com/aiiu-lab/Gen-n-Val" class="external-link button is-normal is-rounded is-dark" title="Open code repository">
+                    <span class="icon"><i class="fab fa-github"></i></span>
+                    <span>Code</span>
+                  </a>
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="hero teaser">
+      <div class="container is-max-widescreen">
+        <div class="hero-body">
+          <div class="teaser-grid">
+            <figure class="teaser-panel teaser-panel-object">
+              <img src="static/images/teaser_left.png" alt="Synthetic instances generated by Gen-n-Val with segmentation masks">
+            </figure>
+            <figure class="teaser-panel teaser-panel-chart">
+              <img src="static/images/teaser_distribution.png" alt="LVIS category distribution before and after Gen-n-Val balancing">
+            </figure>
+          </div>
+          <h2 class="subtitle has-text-centered teaser-caption">
+            Gen-n-Val generates high-quality synthetic data to address long-tailed distributions in instance segmentation.
+          </h2>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="abstract">
+      <div class="container is-max-desktop">
+        <h2 class="title is-3 has-text-centered">Abstract</h2>
+        <div class="content publication-body">
+          <p>
+            Data scarcity, label noise, and long-tailed category imbalance remain important unresolved challenges in computer vision tasks such as object detection and instance segmentation, especially on large-vocabulary benchmarks like LVIS, where most categories appear in only a few images. Current synthetic data generation methods still suffer from multiple objects per mask, inaccurate segmentation, incorrect category labels, and other issues.
+          </p>
+          <p>
+            Gen-n-Val is an agentic data generation framework that leverages Layer Diffusion, an LLM, and a VLLM to produce high-quality and diverse instance masks and images. It consists of two agents: an LD prompt agent that optimizes prompts for high-quality foreground single-object images with masks, and a data validation agent that filters low-quality synthetic instances. TextGrad is used to optimize the system prompts for both agents.
+          </p>
+          <p>
+            Compared to state-of-the-art synthetic data approaches like MosaicFusion, Gen-n-Val reduces invalid synthetic data from 50% to 7%, improves LVIS rare-class instance segmentation by 7.6% mAP with Mask R-CNN, improves COCO rare-class instance segmentation by 3.6% mAP with YOLOv9c and YOLO11m, and improves open-vocabulary object detection by 7.1% mAP over YOLO-Worldv2-M with YOLO11m.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section-muted" id="motivation">
+      <div class="container is-max-widescreen">
+        <h2 class="title is-3 has-text-centered">Prompting and Validation</h2>
+        <div class="content publication-body has-text-centered narrow-copy">
+          <p>
+            Synthetic data only helps long-tail recognition when each generated instance is usable: it should contain exactly one target object, the category should be correct, and the mask should tightly match the object. Existing diffusion-based pipelines often break this contract, producing incomplete masks, multiple objects under one mask, or even the wrong category. Gen-n-Val is motivated by closing this quality gap before synthetic data is added to training.
+          </p>
+        </div>
+
+        <figure class="single-figure">
+          <img src="static/images/flawed_mosaicfusion.jpg" alt="Common MosaicFusion synthetic data failures">
+          <figcaption>Prior diffusion-based synthetic data can include incomplete masks, multiple objects under one mask, and wrong categories.</figcaption>
+        </figure>
+
+        <div class="columns prompt-columns">
+          <div class="column">
+            <h3 class="title is-4">Why Prompting Matters</h3>
+            <p class="section-copy">
+              A standard prompt such as "a photo of a single object" is too ambiguous for reliable data generation. It can produce repetitive samples, cluttered foregrounds, or images with multiple unintended objects, which weakens the supervision signal for rare categories.
+            </p>
+            <div class="image-grid small-grid">
+              <img src="static/images/orange-standard/standard_1.jpg" alt="Layer Diffusion standard prompt orange sample 1">
+              <img src="static/images/orange-standard/standard_2.jpg" alt="Layer Diffusion standard prompt orange sample 2">
+              <img src="static/images/orange-standard/standard_3.jpg" alt="Layer Diffusion standard prompt orange sample 3">
+              <img src="static/images/orange-standard/standard_4.jpg" alt="Layer Diffusion standard prompt orange sample 4">
+              <img src="static/images/orange-standard/standard_5.jpg" alt="Layer Diffusion standard prompt orange sample 5">
+              <img src="static/images/orange-standard/standard_6.jpg" alt="Layer Diffusion standard prompt orange sample 6">
+            </div>
+          </div>
+          <div class="column">
+            <h3 class="title is-4">Why Validation Matters</h3>
+            <p class="section-copy">
+              Even after prompt optimization, generated instances can still be invalid. The VLLM validation agent filters failure cases before composition, so downstream detectors are trained on cleaner instances instead of noisy synthetic labels.
+            </p>
+            <div class="image-grid labeled-grid">
+              <figure><img src="static/images/orange-optimized/no_object.jpg" alt="No-object failure case"><figcaption>No object</figcaption></figure>
+              <figure><img src="static/images/orange-optimized/multiple_objects.jpg" alt="Multiple-objects failure case"><figcaption>Multiple objects</figcaption></figure>
+              <figure><img src="static/images/orange-optimized/wrong_category.jpg" alt="Wrong-category failure case"><figcaption>Wrong category</figcaption></figure>
+              <figure><img src="static/images/orange-optimized/incomplete.jpg" alt="Incomplete-object failure case"><figcaption>Incomplete</figcaption></figure>
+              <figure><img src="static/images/orange-optimized/multiple_conditions.jpg" alt="Multiple-conditions failure case"><figcaption>Mixed conditions</figcaption></figure>
+              <figure><img src="static/images/orange-optimized/multiple_categories.jpg" alt="Multiple-categories failure case"><figcaption>Mixed categories</figcaption></figure>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section-muted" id="method">
+      <div class="container is-max-widescreen">
+        <div class="columns is-centered">
+          <div class="column is-10">
+            <h2 class="title is-3 has-text-centered">Method Overview</h2>
+            <div class="content has-text-centered section-intro">
+              <p>
+                Gen-n-Val replaces prompt-only generation and hand-crafted filtering with an agentic loop: optimize prompts, generate transparent foreground instances with Layer Diffusion, validate them with a VLLM, then paste validated instances into training images.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="pipeline-stack">
+          <figure class="figure-strip">
+            <figcaption>Previous generative-based augmentation methods</figcaption>
+            <img src="static/images/pipeline_previous_methods.png" alt="Pipeline of previous generative-based augmentation methods">
+          </figure>
+          <figure class="figure-strip">
+            <figcaption>Gen-n-Val</figcaption>
+            <img src="static/images/pipeline_gen_n_val.png" alt="Pipeline of the Gen-n-Val method">
+          </figure>
+        </div>
+
+        <div class="method-steps">
+          <div class="step-block">
+            <span class="step-index">1</span>
+            <h3>Open-Vocabulary Prompt Generation</h3>
+            <p>An LLM prompt agent uses TextGrad-refined system prompts to create detailed prompts for Layer Diffusion.</p>
+          </div>
+          <div class="step-block">
+            <span class="step-index">2</span>
+            <h3>Foreground Image Generation</h3>
+            <p>Layer Diffusion generates transparent single-instance images whose alpha channel directly provides masks.</p>
+          </div>
+          <div class="step-block">
+            <span class="step-index">3</span>
+            <h3>Image Filtering</h3>
+            <p>A VLLM validation agent rejects missing objects, multiple objects, wrong categories, incomplete instances, and noisy outputs.</p>
+          </div>
+          <div class="step-block">
+            <span class="step-index">4</span>
+            <h3>Data Composition</h3>
+            <p>Validated instances are composited into diverse scenes for downstream detection and segmentation training.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="results">
+      <div class="container is-max-widescreen">
+        <h2 class="title is-3 has-text-centered">Results</h2>
+        <div class="metric-grid">
+          <div class="metric-card">
+            <span class="metric-value">+7.6</span>
+            <span class="metric-label">Rare mask mAP on LVIS with Mask R-CNN</span>
+          </div>
+          <div class="metric-card">
+            <span class="metric-value">727K</span>
+            <span class="metric-label">Instances added to balance 1,203 LVIS classes to at least 1,000 images</span>
+          </div>
+          <div class="metric-card">
+            <span class="metric-value">7%</span>
+            <span class="metric-label">Invalid synthetic data after Gen-n-Val validation, down from about 50%</span>
+          </div>
+          <div class="metric-card">
+            <span class="metric-value">+7.1</span>
+            <span class="metric-label">Open-vocabulary box mAP over YOLO-Worldv2-M</span>
+          </div>
+        </div>
+
+        <div class="columns results-columns">
+          <div class="column">
+            <h3 class="title is-4">LVIS Instance Segmentation and Detection</h3>
+            <div class="table-container">
+              <table class="table is-fullwidth is-striped result-table">
+                <thead>
+                  <tr>
+                    <th>Method</th>
+                    <th>Box mAP</th>
+                    <th>Rare Box</th>
+                    <th>Mask mAP</th>
+                    <th>Rare Mask</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr><td>Mask R-CNN baseline</td><td>22.5</td><td>9.1</td><td>21.7</td><td>9.6</td></tr>
+                  <tr><td>MosaicFusion</td><td>24.0</td><td>14.8</td><td>23.1</td><td>15.2</td></tr>
+                  <tr><td>Gen2Det</td><td>24.4</td><td>15.4</td><td>23.6</td><td>15.3</td></tr>
+                  <tr class="ours-row"><td>Gen-n-Val</td><td>26.8</td><td>16.1</td><td>25.6</td><td>17.2</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div class="column">
+            <h3 class="title is-4">COCO Instance Segmentation</h3>
+            <div class="table-container">
+              <table class="table is-fullwidth is-striped result-table">
+                <thead>
+                  <tr>
+                    <th>Method</th>
+                    <th>Box mAP</th>
+                    <th>Rare Box</th>
+                    <th>Mask mAP</th>
+                    <th>Rare Mask</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr><td>YOLO11m baseline</td><td>49.6</td><td>51.9</td><td>39.8</td><td>45.4</td></tr>
+                  <tr><td>Copy-Paste</td><td>50.0</td><td>52.1</td><td>41.5</td><td>47.1</td></tr>
+                  <tr><td>MosaicFusion</td><td>50.6</td><td>54.3</td><td>42.0</td><td>48.1</td></tr>
+                  <tr class="ours-row"><td>Gen-n-Val</td><td>51.7</td><td>55.4</td><td>42.9</td><td>49.0</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <figure class="single-figure">
+          <img src="static/images/performance_comparison.png" alt="YOLO model-scale performance comparison">
+          <figcaption>Gen-n-Val improves instance segmentation across YOLOv9 and YOLO11 model scales.</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container is-max-widescreen">
+        <h2 class="title is-3 has-text-centered">Qualitative Results</h2>
+        <div class="qualitative-grid">
+          <figure>
+            <img src="static/images/qualitative_gt.jpg" alt="Ground-truth segmentation result">
+            <figcaption>Ground Truth</figcaption>
+          </figure>
+          <figure>
+            <img src="static/images/qualitative_baseline.jpg" alt="Baseline segmentation result">
+            <figcaption>Baseline</figcaption>
+          </figure>
+          <figure>
+            <img src="static/images/qualitative_gen_n_val.jpg" alt="Gen-n-Val segmentation result">
+            <figcaption>Gen-n-Val</figcaption>
+          </figure>
+        </div>
+        <p class="section-copy has-text-centered narrow-copy">
+          The baseline misses objects in challenging scenes, while the model trained with Gen-n-Val synthetic data recovers additional instances and masks.
+        </p>
+      </div>
+    </section>
+
+    <section class="section section-muted">
+      <div class="container is-max-widescreen">
+        <h2 class="title is-3 has-text-centered">Synthetic Data Examples</h2>
+        <div class="image-grid sample-grid">
+          <img src="static/images/synthetic-samples/truck.jpg" alt="Synthetic truck instance">
+          <img src="static/images/synthetic-samples/orange.jpg" alt="Synthetic orange instance">
+          <img src="static/images/synthetic-samples/laptop.jpg" alt="Synthetic laptop instance">
+          <img src="static/images/synthetic-samples/umbrella.jpg" alt="Synthetic umbrella instance">
+          <img src="static/images/synthetic-samples/person.jpg" alt="Synthetic person instance">
+          <img src="static/images/synthetic-samples/tennis_racket.jpg" alt="Synthetic tennis racket instance">
+        </div>
+        <div class="before-after">
+          <figure>
+            <img src="static/images/synthetic-samples/lvis_origin_1.jpg" alt="Original LVIS image">
+            <figcaption>Original LVIS</figcaption>
+          </figure>
+          <figure>
+            <img src="static/images/synthetic-samples/lvis_aug_1.jpg" alt="LVIS image augmented by Gen-n-Val">
+            <figcaption>Augmented by Gen-n-Val</figcaption>
+          </figure>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="bibtex">
+      <div class="container is-max-desktop">
+        <h2 class="title is-3">BibTeX</h2>
+        <div class="bibtex-toolbar">
+          <button class="button is-small is-light" id="copy-bibtex" title="Copy BibTeX">
+            <span class="icon"><i class="fas fa-copy"></i></span>
+            <span>Copy</span>
+          </button>
+          <span id="copy-status" class="copy-status" aria-live="polite"></span>
+        </div>
+        <pre class="bibtex-block"><code id="bibtex-code">@inproceedings{huang2026gennval,
+  title     = {Gen-n-Val: Agentic Image Data Generation and Validation},
+  author    = {Huang, Jing-En and Fang, I-Sheng and Huang, Tzuhsuan and Liu, Yu-Lun and Wang, Chih-Yu and Chen, Jun-Cheng},
+  booktitle = {CVPR Findings},
+  year      = {2026}
+}</code></pre>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="content has-text-centered">
+        <p>
+          Website template adapted from <a href="https://nerfies.github.io/">Nerfies</a>.
+        </p>
+        <p>
+          This website is licensed under a <a rel="license" href="https://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>.
+        </p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="static/js/index.js"></script>
+</body>
+</html>

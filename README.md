@@ -1,9 +1,9 @@
 # Gen-n-Val
 
-Gen-n-Val is a CVPR 2026 Findings Track paper.
+Project page for **Gen-n-Val: Agentic Image Data Generation and Validation**, a CVPR 2026 Findings Track paper.
 
-## Code Release
+Paper: https://arxiv.org/abs/2506.04676
 
-This repository is under preparation. Code and documentation will be released soon.
+The website is a static page adapted from the [Nerfies project page template](https://github.com/nerfies/nerfies.github.io).
 
-To be continued.
+Open `index.html` locally, or publish this branch with GitHub Pages.
