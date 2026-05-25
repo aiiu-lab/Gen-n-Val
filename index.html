@@ -253,12 +253,243 @@
           </div>
         </div>
 
-        <div class="agent-examples" id="agent-examples">
-          <h3 class="title is-4 has-text-centered">Agent Examples</h3>
+        <div class="columns results-columns">
+          <div class="column">
+            <h3 class="title is-4">LVIS Instance Segmentation and Detection</h3>
+            <div class="table-container">
+              <table class="table is-fullwidth is-striped result-table">
+                <thead>
+                  <tr>
+                    <th>Method</th>
+                    <th>Box mAP</th>
+                    <th>Rare Box</th>
+                    <th>Mask mAP</th>
+                    <th>Rare Mask</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr><td>Mask R-CNN baseline</td><td>22.5</td><td>9.1</td><td>21.7</td><td>9.6</td></tr>
+                  <tr><td>MosaicFusion</td><td>24.0</td><td>14.8</td><td>23.1</td><td>15.2</td></tr>
+                  <tr><td>Gen2Det</td><td>24.4</td><td>15.4</td><td>23.6</td><td>15.3</td></tr>
+                  <tr class="ours-row"><td>Gen-n-Val</td><td>26.8</td><td>16.1</td><td>25.6</td><td>17.2</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div class="column">
+            <h3 class="title is-4">COCO Instance Segmentation</h3>
+            <div class="table-container">
+              <table class="table is-fullwidth is-striped result-table">
+                <thead>
+                  <tr>
+                    <th>Method</th>
+                    <th>Box mAP</th>
+                    <th>Rare Box</th>
+                    <th>Mask mAP</th>
+                    <th>Rare Mask</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr><td>YOLO11m baseline</td><td>49.6</td><td>51.9</td><td>39.8</td><td>45.4</td></tr>
+                  <tr><td>Copy-Paste</td><td>50.0</td><td>52.1</td><td>41.5</td><td>47.1</td></tr>
+                  <tr><td>MosaicFusion</td><td>50.6</td><td>54.3</td><td>42.0</td><td>48.1</td></tr>
+                  <tr class="ours-row"><td>Gen-n-Val</td><td>51.7</td><td>55.4</td><td>42.9</td><td>49.0</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <figure class="single-figure">
+          <img src="static/images/performance_comparison.png" alt="YOLO model-scale performance comparison">
+          <figcaption>Gen-n-Val improves instance segmentation across YOLOv9 and YOLO11 model scales.</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container is-max-widescreen">
+        <h2 class="title is-3 has-text-centered">Qualitative Results</h2>
+        <div class="qualitative-grid">
+          <figure>
+            <img src="static/images/qualitative_gt.jpg" alt="Ground-truth segmentation result">
+            <figcaption>Ground Truth</figcaption>
+          </figure>
+          <figure>
+            <img src="static/images/qualitative_baseline.jpg" alt="Baseline segmentation result">
+            <figcaption>Baseline</figcaption>
+          </figure>
+          <figure>
+            <img src="static/images/qualitative_gen_n_val.jpg" alt="Gen-n-Val segmentation result">
+            <figcaption>Gen-n-Val</figcaption>
+          </figure>
+        </div>
+        <p class="section-copy has-text-centered narrow-copy">
+          The baseline misses objects in challenging scenes, while the model trained with Gen-n-Val synthetic data recovers additional instances and masks.
+        </p>
+      </div>
+    </section>
+
+    <section class="section" id="agent-examples">
+      <div class="container is-max-widescreen">
+        <div class="agent-examples">
+          <h2 class="title is-3 has-text-centered">Agent Examples</h2>
           <div class="content publication-body has-text-centered narrow-copy">
             <p>
               The LD prompt agent turns short category-level prompts into detailed Layer Diffusion prompts, while the data validation agent explains why generated foreground instances should be kept or filtered before augmentation.
             </p>
+          </div>
+
+          <div class="agent-example-block">
+            <h4 class="title is-5 has-text-centered">Initial vs. Optimized System Prompt</h4>
+            <div class="system-prompt-toggle">
+              <button class="button is-small" type="button" id="toggle-system-prompts" aria-expanded="false" aria-controls="system-prompt-list">Show full system prompt</button>
+            </div>
+            <div class="system-prompt-list" id="system-prompt-list" hidden>
+              <article class="system-prompt-example">
+                <h5>LD Prompt Agent</h5>
+                <div class="system-prompt-grid">
+                  <section class="system-prompt-card">
+                    <span>Initial system prompt</span>
+                    <div class="system-prompt-full">
+                      <p>
+                        Generate detailed positive prompts for the Stable Diffusion Juggernaut-XL-v6 model to create images focusing solely on the main subject. Each prompt must be specific and cover aspects such as the subject's status, color, style, mood/atmosphere, lighting, perspective/viewpoint, textures/material, time period, and medium. Prompts should emphasize the use of trigger words like "high-resolution" and "highly realistic" to ensure quality. Prompts should be concise, limited to under 75 tokens, and must not include disallowed or sensitive content. Background descriptions should be absent, avoiding the inclusion of additional objects.
+                      </p>
+                    </div>
+                  </section>
+                  <section class="system-prompt-card optimized-system-prompt">
+                    <span>Optimized system prompt</span>
+                    <div class="system-prompt-full">
+                      <p>
+                        You are an AI assistant designed to generate detailed and realistic prompts for the Stable Diffusion XL model, focusing only on a single subject. The background and environment should be omitted in the prompts. Your prompts should be specific, descriptive, diverse, and follow the provided guidelines to ensure high-quality image generation.
+                      </p>
+                      <p><strong>Guidelines for Prompt Creation:</strong></p>
+                      <ol>
+                        <li><strong>Subject:</strong> The only single object in the image. Ensure a wide variety of subjects, ranging from everyday items to unique or uncommon objects.</li>
+                        <li><strong>Status:</strong> The current state or condition of the subject.</li>
+                        <li><strong>Color:</strong> Dominant colors of the subject. Include specific shades and variations to enhance visual detail.</li>
+                        <li><strong>Style:</strong> Artistic style or rendering method. Incorporate a range of styles (e.g., photorealistic, hyper-realistic) to promote diversity.</li>
+                        <li><strong>Mood/Atmosphere:</strong> Emotional quality related to the subject. Convey realistic emotions or states that align with the subject.</li>
+                        <li><strong>Lighting:</strong> Specific lighting on the subject. Describe natural or artificial lighting conditions that highlight the subject's features.</li>
+                        <li><strong>Perspective/Viewpoint:</strong> Angle or perspective of the subject. Use varied viewpoints (e.g., top-down, eye-level, close-up) to add depth.</li>
+                        <li><strong>Texture/Material:</strong> Textures or materials of the subject. Detail the tactile qualities to enhance realism.</li>
+                        <li><strong>Time Period:</strong> Specific era. When relevant, specify a realistic time period to provide context.</li>
+                        <li><strong>Medium:</strong> Artistic medium or level of detail.</li>
+                      </ol>
+                      <ul>
+                        <li><strong>Key Trigger Words:</strong> Include terms like "high-resolution", "highly realistic".</li>
+                        <li><strong>Length:</strong> Keep the prompt under 75 tokens.</li>
+                        <li><strong>Avoid:</strong> Do not include any additional subjects in the prompt. Do not include any descriptions about the background.</li>
+                      </ul>
+                    </div>
+                  </section>
+                </div>
+              </article>
+
+              <article class="system-prompt-example">
+                <h5>Data Validation Agent</h5>
+                <div class="system-prompt-grid">
+                  <section class="system-prompt-card">
+                    <span>Initial system prompt</span>
+                    <div class="system-prompt-full">
+                      <p>
+                        As an AI assistant, your role is to analyze images to determine their suitability based on specific criteria. First, provide a detailed description of the image. Second, evaluate the image against four criteria: 1. it should contain only one subject; 2. the subject should be shown from a single angle or perspective, without multiple views or angles within the same image; 3. the subject should be intact and fully visible; and 4. the background should be empty or plain, without distracting elements. Third, based on this evaluation, decide whether to filter out the image if it violates any of the criteria or keep it if it meets all of them. At last, conclude with a result stating "Keep" if the image meets all criteria or "Filter Out" if it violates any. Present your analysis in the specified output format, including the image description, detailed evaluations with explanations and results for each criterion, a conclusion, and the final result.
+                      </p>
+                      <p><strong>Output Format:</strong></p>
+                      <div class="system-prompt-format">
+                        <p>Image Description:</p>
+                        <p>Evaluation Criteria:</p>
+                        <ol>
+                          <li>Single [Category Name]:
+                            <ul>
+                              <li>Explanation</li>
+                              <li>Result: Meet or Fail</li>
+                            </ul>
+                          </li>
+                          <li>Single View:
+                            <ul>
+                              <li>Explanation</li>
+                              <li>Result: Meet or Fail</li>
+                            </ul>
+                          </li>
+                          <li>Intact [Category Name]:
+                            <ul>
+                              <li>Explanation</li>
+                              <li>Result: Meet or Fail</li>
+                            </ul>
+                          </li>
+                          <li>Plain Background:
+                            <ul>
+                              <li>Explanation</li>
+                              <li>Result: Meet or Fail</li>
+                            </ul>
+                          </li>
+                        </ol>
+                        <p>Conclusion:</p>
+                        <p>Result: Keep or Filter Out</p>
+                      </div>
+                    </div>
+                  </section>
+                  <section class="system-prompt-card optimized-system-prompt">
+                    <span>Optimized system prompt</span>
+                    <div class="system-prompt-full">
+                      <p>
+                        You are an AI assistant that analyzes images to determine their suitability based on specific criteria.
+                      </p>
+                      <p><strong>Instructions:</strong></p>
+                      <ol>
+                        <li><strong>Describe the image in detail.</strong></li>
+                        <li><strong>Evaluate the image</strong> against the following criteria:
+                          <ul>
+                            <li><strong>Criteria 1 - Single subject:</strong> The image should contain only one subject.</li>
+                            <li><strong>Criteria 2 - Single View:</strong> The subject should be shown from a single angle or perspective.</li>
+                            <li><strong>Criteria 3 - Intact subject:</strong> The subject should be intact and fully visible.</li>
+                            <li><strong>Criteria 4 - Plain Background:</strong> The background should be empty or plain, without distracting elements.</li>
+                          </ul>
+                        </li>
+                        <li><strong>Decide whether to filter out the image</strong> based on these criteria.</li>
+                        <li>Conclude with <strong>Result:</strong> Keep if the image meets all criteria or <strong>Result:</strong> Filter Out if it violates any criteria.</li>
+                      </ol>
+                      <p><strong>Output Format:</strong></p>
+                      <div class="system-prompt-format">
+                        <p><strong>Image Description:</strong></p>
+                        <p>[Your detailed description here]</p>
+                        <p><strong>Evaluation Criteria:</strong></p>
+                        <ol>
+                          <li><strong>Single [Category Name]:</strong>
+                            <ul>
+                              <li>[Explanation]</li>
+                              <li><strong>Result:</strong> [Meet/Fail]</li>
+                            </ul>
+                          </li>
+                          <li><strong>Single View:</strong>
+                            <ul>
+                              <li>[Explanation]</li>
+                              <li><strong>Result:</strong> [Meet/Fail]</li>
+                            </ul>
+                          </li>
+                          <li><strong>Intact [Category Name]:</strong>
+                            <ul>
+                              <li>[Explanation]</li>
+                              <li><strong>Result:</strong> [Meet/Fail]</li>
+                            </ul>
+                          </li>
+                          <li><strong>Plain Background:</strong>
+                            <ul>
+                              <li>[Explanation]</li>
+                              <li><strong>Result:</strong> [Meet/Fail]</li>
+                            </ul>
+                          </li>
+                        </ol>
+                        <p><strong>Conclusion:</strong></p>
+                        <p>[Your conclusion here]</p>
+                        <p><strong>Result:</strong> [Keep/Filter Out]</p>
+                      </div>
+                    </div>
+                  </section>
+                </div>
+              </article>
+            </div>
           </div>
 
           <div class="agent-example-block">
@@ -347,6 +578,23 @@
           </div>
 
           <div class="agent-example-block">
+            <h4 class="title is-5 has-text-centered">Diversity Effect of Optimized LD Prompt</h4>
+            <p class="section-copy has-text-centered narrow-copy">
+              Figure S.6 and Figure S.7 compare person foreground instances generated from the standard LD prompt and optimized LD prompts. The optimized prompts produce broader variation in clothing, pose, color, texture, lighting, and viewpoint.
+            </p>
+            <div class="diversity-figure-grid">
+              <figure class="diversity-figure">
+                <img src="static/images/prompt-diversity/person_stitched_standard.jpg" alt="Figure S.6 person foreground instances generated using the standard LD prompt">
+                <figcaption><strong>Figure S.6.</strong> Person foreground instances generated using the standard LD prompt.</figcaption>
+              </figure>
+              <figure class="diversity-figure">
+                <img src="static/images/prompt-diversity/person_stitched_optimized.jpg" alt="Figure S.7 person foreground instances generated using optimized LD prompts">
+                <figcaption><strong>Figure S.7.</strong> Person foreground instances generated using optimized LD prompts.</figcaption>
+              </figure>
+            </div>
+          </div>
+
+          <div class="agent-example-block">
             <h4 class="title is-5 has-text-centered">Data Validation Agent's Response</h4>
             <div class="validation-response-grid">
               <article class="validation-response">
@@ -411,81 +659,6 @@
             </div>
           </div>
         </div>
-
-        <div class="columns results-columns">
-          <div class="column">
-            <h3 class="title is-4">LVIS Instance Segmentation and Detection</h3>
-            <div class="table-container">
-              <table class="table is-fullwidth is-striped result-table">
-                <thead>
-                  <tr>
-                    <th>Method</th>
-                    <th>Box mAP</th>
-                    <th>Rare Box</th>
-                    <th>Mask mAP</th>
-                    <th>Rare Mask</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr><td>Mask R-CNN baseline</td><td>22.5</td><td>9.1</td><td>21.7</td><td>9.6</td></tr>
-                  <tr><td>MosaicFusion</td><td>24.0</td><td>14.8</td><td>23.1</td><td>15.2</td></tr>
-                  <tr><td>Gen2Det</td><td>24.4</td><td>15.4</td><td>23.6</td><td>15.3</td></tr>
-                  <tr class="ours-row"><td>Gen-n-Val</td><td>26.8</td><td>16.1</td><td>25.6</td><td>17.2</td></tr>
-                </tbody>
-              </table>
-            </div>
-          </div>
-          <div class="column">
-            <h3 class="title is-4">COCO Instance Segmentation</h3>
-            <div class="table-container">
-              <table class="table is-fullwidth is-striped result-table">
-                <thead>
-                  <tr>
-                    <th>Method</th>
-                    <th>Box mAP</th>
-                    <th>Rare Box</th>
-                    <th>Mask mAP</th>
-                    <th>Rare Mask</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr><td>YOLO11m baseline</td><td>49.6</td><td>51.9</td><td>39.8</td><td>45.4</td></tr>
-                  <tr><td>Copy-Paste</td><td>50.0</td><td>52.1</td><td>41.5</td><td>47.1</td></tr>
-                  <tr><td>MosaicFusion</td><td>50.6</td><td>54.3</td><td>42.0</td><td>48.1</td></tr>
-                  <tr class="ours-row"><td>Gen-n-Val</td><td>51.7</td><td>55.4</td><td>42.9</td><td>49.0</td></tr>
-                </tbody>
-              </table>
-            </div>
-          </div>
-        </div>
-
-        <figure class="single-figure">
-          <img src="static/images/performance_comparison.png" alt="YOLO model-scale performance comparison">
-          <figcaption>Gen-n-Val improves instance segmentation across YOLOv9 and YOLO11 model scales.</figcaption>
-        </figure>
-      </div>
-    </section>
-
-    <section class="section">
-      <div class="container is-max-widescreen">
-        <h2 class="title is-3 has-text-centered">Qualitative Results</h2>
-        <div class="qualitative-grid">
-          <figure>
-            <img src="static/images/qualitative_gt.jpg" alt="Ground-truth segmentation result">
-            <figcaption>Ground Truth</figcaption>
-          </figure>
-          <figure>
-            <img src="static/images/qualitative_baseline.jpg" alt="Baseline segmentation result">
-            <figcaption>Baseline</figcaption>
-          </figure>
-          <figure>
-            <img src="static/images/qualitative_gen_n_val.jpg" alt="Gen-n-Val segmentation result">
-            <figcaption>Gen-n-Val</figcaption>
-          </figure>
-        </div>
-        <p class="section-copy has-text-centered narrow-copy">
-          The baseline misses objects in challenging scenes, while the model trained with Gen-n-Val synthetic data recovers additional instances and masks.
-        </p>
       </div>
     </section>
 

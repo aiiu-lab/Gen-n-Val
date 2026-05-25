@@ -10,6 +10,19 @@
     });
   }
 
+  var systemPromptButton = document.getElementById("toggle-system-prompts");
+  var systemPromptList = document.getElementById("system-prompt-list");
+
+  if (systemPromptButton && systemPromptList) {
+    systemPromptButton.addEventListener("click", function () {
+      var shouldShow = systemPromptList.hidden;
+
+      systemPromptList.hidden = !shouldShow;
+      systemPromptButton.setAttribute("aria-expanded", shouldShow);
+      systemPromptButton.textContent = shouldShow ? "Hide full system prompt" : "Show full system prompt";
+    });
+  }
+
   var copyButton = document.getElementById("copy-bibtex");
   var bibtexCode = document.getElementById("bibtex-code");
   var status = document.getElementById("copy-status");

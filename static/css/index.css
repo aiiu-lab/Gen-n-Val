@@ -273,9 +273,7 @@ body {
 }
 
 .agent-examples {
-  border-top: 1px solid #e8e8e8;
-  margin-top: 2.5rem;
-  padding-top: 2rem;
+  margin-top: 0;
 }
 
 .agent-example-block {
@@ -284,6 +282,112 @@ body {
 
 .agent-example-block > h4 {
   text-align: center;
+}
+
+.system-prompt-toggle {
+  display: flex;
+  gap: 0.5rem;
+  justify-content: center;
+  margin: 0.25rem 0 1.5rem;
+}
+
+.system-prompt-toggle .button {
+  border-color: #cfcfcf;
+  min-width: 12rem;
+}
+
+.system-prompt-list {
+  display: grid;
+  gap: 1.5rem;
+}
+
+.system-prompt-list[hidden] {
+  display: none;
+}
+
+.system-prompt-example {
+  border-top: 1px solid #e8e8e8;
+  padding-top: 1.25rem;
+}
+
+.system-prompt-example h5 {
+  font-family: "Google Sans", "Noto Sans", sans-serif;
+  font-size: 1.05rem;
+  font-weight: 700;
+  letter-spacing: 0;
+  margin-bottom: 0.75rem;
+}
+
+.system-prompt-grid {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.system-prompt-card {
+  background: #fafafa;
+  border: 1px solid #e5e5e5;
+  border-radius: 8px;
+  padding: 1rem;
+}
+
+.optimized-system-prompt {
+  background: #f8fbfd;
+  border-color: #d7e8f4;
+}
+
+.system-prompt-card span {
+  color: #222;
+  display: block;
+  font-family: "Google Sans", "Noto Sans", sans-serif;
+  font-weight: 700;
+  margin-bottom: 0.45rem;
+}
+
+.system-prompt-card p {
+  color: #555;
+  font-size: 0.94rem;
+  line-height: 1.5;
+  margin-bottom: 0;
+}
+
+.system-prompt-card p + p,
+.system-prompt-card p + ol,
+.system-prompt-card p + ul,
+.system-prompt-card ol + p,
+.system-prompt-card ul + p {
+  margin-top: 0.75rem;
+}
+
+.system-prompt-card ol,
+.system-prompt-card ul {
+  color: #555;
+  font-size: 0.94rem;
+  line-height: 1.5;
+  margin-bottom: 0;
+  margin-left: 1.15rem;
+  margin-top: 0.55rem;
+  padding-left: 0.85rem;
+}
+
+.system-prompt-card li + li {
+  margin-top: 0.35rem;
+}
+
+.system-prompt-card li ul {
+  margin-top: 0.35rem;
+}
+
+.system-prompt-format {
+  background: #fff;
+  border: 1px solid #ededed;
+  border-radius: 6px;
+  margin-top: 0.75rem;
+  padding: 0.75rem;
+}
+
+.system-prompt-format p + p {
+  margin-top: 0.35rem;
 }
 
 .prompt-example-list {
@@ -347,6 +451,32 @@ body {
   font-family: "Google Sans", "Noto Sans", sans-serif;
   font-weight: 700;
   margin-bottom: 0.45rem;
+}
+
+.diversity-figure-grid {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  margin-top: 1.25rem;
+}
+
+.diversity-figure {
+  margin: 0;
+}
+
+.diversity-figure img {
+  border-radius: 8px;
+  display: block;
+  height: auto;
+  width: 100%;
+}
+
+.diversity-figure figcaption {
+  color: #555;
+  font-size: 0.94rem;
+  line-height: 1.45;
+  padding-top: 0.65rem;
+  text-align: center;
 }
 
 .validation-response-grid {
@@ -546,6 +676,8 @@ body {
   .metric-grid,
   .prompt-comparison-grid,
   .prompt-version,
+  .system-prompt-grid,
+  .diversity-figure-grid,
   .validation-response-grid,
   .qualitative-grid,
   .before-after {
